@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
+import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
@@ -47,42 +48,64 @@ export function Header() {
     <>
       <header
         className={cn(
-          "fixed top-0 z-50 w-full transition-all duration-300",
-          scrolled ? "bg-charcoal shadow-lg" : "bg-transparent",
+          "fixed top-0 z-50 w-full transition-all duration-500",
+          scrolled
+            ? "bg-charcoal/95 backdrop-blur-md shadow-lg border-b border-[#C5A065]/10"
+            : "bg-transparent",
         )}
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between py-4 md:py-5">
             <Link href="/" className="flex items-center">
-              <img
+              <motion.img
                 src="/logo.jpeg"
                 alt="Terrixa Realty"
                 className="h-12 w-auto"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
               />
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <Link
+              {navLinks.map((link, i) => (
+                <motion.div
                   key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "text-sm font-medium transition-colors",
-                    pathname === link.href ? "text-gold" : "text-white/90 hover:text-gold",
-                  )}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 + i * 0.05 }}
                 >
-                  {link.label}
-                </Link>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "relative text-sm font-medium transition-colors py-1 group",
+                      pathname === link.href ? "text-[#C5A065]" : "text-white/90 hover:text-[#C5A065]",
+                    )}
+                  >
+                    {link.label}
+                    <span
+                      className={cn(
+                        "absolute bottom-0 left-0 h-0.5 bg-[#C5A065] transition-all duration-300",
+                        pathname === link.href ? "w-full" : "w-0 group-hover:w-full",
+                      )}
+                    />
+                  </Link>
+                </motion.div>
               ))}
             </nav>
 
-            <div className="hidden md:flex items-center gap-4">
+            <motion.div
+              className="hidden md:flex items-center gap-4"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
               <Link href="/contact">
-                <Button className="bg-gold hover:bg-gold/90 text-white rounded-full px-6 py-2 font-medium transition-all duration-300 shadow-lg hover:shadow-gold/20">
+                <Button className="bg-[#C5A065] hover:bg-[#C5A065]/90 text-white rounded-full px-6 py-2 font-medium transition-all duration-300 shadow-lg hover:shadow-[#C5A065]/20">
                   Request Consultation
                 </Button>
               </Link>
-            </div>
+            </motion.div>
 
             <button
               className="md:hidden p-2 transition-colors z-50 text-white"
@@ -118,7 +141,7 @@ export function Header() {
             />
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="p-2 text-white/80 hover:text-gold transition-colors"
+              className="p-2 text-white/80 hover:text-[#C5A065] transition-colors"
               aria-label="Close menu"
             >
               <X className="h-5 w-5" />
@@ -132,8 +155,8 @@ export function Header() {
                   <Link
                     href={link.href}
                     className={cn(
-                      "block py-3 px-4 font-medium hover:bg-white/10 hover:text-gold rounded-lg transition-colors",
-                      pathname === link.href ? "text-gold bg-white/10" : "text-white/80",
+                      "block py-3 px-4 font-medium hover:bg-white/10 hover:text-[#C5A065] rounded-lg transition-colors",
+                      pathname === link.href ? "text-[#C5A065] bg-white/10" : "text-white/80",
                     )}
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -146,7 +169,7 @@ export function Header() {
 
           <div className="p-4 border-t border-white/10">
             <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-              <Button className="bg-gold hover:bg-gold/90 text-white rounded-full w-full hover:shadow-lg transition-all">
+              <Button className="bg-[#C5A065] hover:bg-[#C5A065]/90 text-white rounded-full w-full hover:shadow-lg transition-all">
                 Request Consultation
               </Button>
             </Link>

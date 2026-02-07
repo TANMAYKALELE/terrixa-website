@@ -1,13 +1,67 @@
+"use client"
+
 import Link from "next/link"
 import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react"
+import { motion } from "framer-motion"
+import { staggerContainer, fadeUp } from "@/lib/motion"
+
+const footerColumns = [
+  {
+    title: "Markets We Serve",
+    links: [
+      { href: "/markets", label: "Karjat | Lonavala | Khandala" },
+      { href: "/markets", label: "Kamshet | Pawna" },
+      { href: "/markets", label: "Pune | Hinjewadi | Wakad" },
+      { href: "/markets", label: "Ravet | Talegaon" },
+    ],
+  },
+  {
+    title: "Our Services",
+    links: [
+      { href: "/about", label: "Land Advisory" },
+      { href: "/about", label: "Residential Sales" },
+      { href: "/about", label: "Commercial Leasing" },
+      { href: "/about", label: "Research & Valuation" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { href: "/about", label: "About Us" },
+      { href: "/contact", label: "Contact" },
+      { href: "/markets", label: "Markets" },
+    ],
+  },
+]
+
+const socials = [
+  { icon: Facebook, href: "#" },
+  { icon: Twitter, href: "#" },
+  { icon: Linkedin, href: "#" },
+  { icon: Instagram, href: "#" },
+]
 
 export function Footer() {
   return (
-    <footer className="bg-charcoal text-white">
-      <div className="py-12 md:py-16">
+    <footer className="bg-charcoal text-white relative overflow-hidden">
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="h-px bg-gradient-to-r from-transparent via-[#C5A065]/40 to-transparent"
+      />
+
+      <div className="py-14 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            <div className="col-span-2 md:col-span-1">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12"
+          >
+            <motion.div variants={fadeUp} className="col-span-2 md:col-span-1">
               <div className="mb-4">
                 <img
                   src="/logo.jpeg"
@@ -25,99 +79,49 @@ export function Footer() {
                 <p>bd@terrixa.com</p>
                 <p>+91 9930070767</p>
               </div>
-            </div>
+            </motion.div>
 
-            <div>
-              <h4 className="font-semibold mb-4 font-[var(--font-heading)]">Markets We Serve</h4>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li>
-                  <Link href="/markets" className="hover:text-gold transition-colors">
-                    Karjat | Lonavala | Khandala
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/markets" className="hover:text-gold transition-colors">
-                    Kamshet | Pawna
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/markets" className="hover:text-gold transition-colors">
-                    Pune | Hinjewadi | Wakad
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/markets" className="hover:text-gold transition-colors">
-                    Ravet | Talegaon
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            {footerColumns.map((column, i) => (
+              <motion.div key={i} variants={fadeUp}>
+                <h4 className="font-semibold mb-4 font-[var(--font-heading)]">{column.title}</h4>
+                <ul className="space-y-2 text-sm text-white/70">
+                  {column.links.map((link, j) => (
+                    <li key={j}>
+                      <Link href={link.href} className="hover:text-[#C5A065] transition-colors duration-200">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </motion.div>
 
-            <div>
-              <h4 className="font-semibold mb-4 font-[var(--font-heading)]">Our Services</h4>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li>
-                  <Link href="/about" className="hover:text-gold transition-colors">
-                    Land Advisory
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="hover:text-gold transition-colors">
-                    Residential Sales
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="hover:text-gold transition-colors">
-                    Commercial Leasing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="hover:text-gold transition-colors">
-                    Research & Valuation
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 font-[var(--font-heading)]">Company</h4>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li>
-                  <Link href="/about" className="hover:text-gold transition-colors">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="hover:text-gold transition-colors">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/markets" className="hover:text-gold transition-colors">
-                    Markets
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
+          >
             <p className="text-sm text-white/50 text-center md:text-left">© 2026 Terrixa. All rights reserved.</p>
             <div className="flex gap-4">
-              <Link href="#" className="text-white/50 hover:text-gold transition-colors">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-white/50 hover:text-gold transition-colors">
-                <Twitter className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-white/50 hover:text-gold transition-colors">
-                <Linkedin className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-white/50 hover:text-gold transition-colors">
-                <Instagram className="h-5 w-5" />
-              </Link>
+              {socials.map((social, i) => {
+                const Icon = social.icon
+                return (
+                  <motion.div
+                    key={i}
+                    whileHover={{ y: -3, color: "#C5A065" }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Link href={social.href} className="text-white/50 hover:text-[#C5A065] transition-colors">
+                      <Icon className="h-5 w-5" />
+                    </Link>
+                  </motion.div>
+                )
+              })}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </footer>

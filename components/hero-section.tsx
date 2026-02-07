@@ -13,32 +13,44 @@ const marqueeText = `${locations}  •  ${locations}  •  ${locations} • ${lo
 export function HeroSection() {
   return (
     <section className="relative w-full min-h-[700px] md:min-h-[800px] flex items-center justify-center overflow-hidden bg-[#1a1a1a]">
-
-      {/* BACKGROUND LAYER */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
           loop
           muted
           playsInline
-          // 👇 POSTER: This image loads instantly so the screen is never black
           poster="https://res.cloudinary.com/dgd2wf7c3/video/upload/v1/hero_grn3vw.jpg"
           className="absolute inset-0 w-full h-full object-cover"
         >
-          {/* 👇 OPTIMIZED LINK: 'q_auto,f_auto' reduces lag significantly */}
-          <source 
-            src="https://res.cloudinary.com/dgd2wf7c3/video/upload/q_auto,f_auto/hero_grn3vw.mp4" 
-            type="video/mp4" 
+          <source
+            src="https://res.cloudinary.com/dgd2wf7c3/video/upload/q_auto,f_auto/hero_grn3vw.mp4"
+            type="video/mp4"
           />
         </video>
-
-        {/* OVERLAY */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
       </div>
 
-      {/* CONTENT LAYER */}
-      <div className="relative z-10 container mx-auto px-4 text-center flex flex-col items-center justify-center min-h-[700px] md:min-h-[800px] pb-24">
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-[#C5A065] rounded-full z-[5]"
+          style={{
+            left: `${10 + Math.random() * 80}%`,
+            top: `${10 + Math.random() * 80}%`,
+          }}
+          animate={{
+            y: [0, -20, 0],
+            opacity: [0.1, 0.4, 0.1],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: Math.random() * 3,
+          }}
+        />
+      ))}
 
+      <div className="relative z-10 container mx-auto px-4 text-center flex flex-col items-center justify-center min-h-[700px] md:min-h-[800px] pb-24">
         <div className="mb-6">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight font-[var(--font-heading)]">
             {headlineWords.map((word, index) => (
@@ -55,7 +67,7 @@ export function HeroSection() {
                 style={{
                   display: "inline-block",
                   transformPerspective: "1000px",
-                  marginRight: index < headlineWords.length - 1 ? "0.35em" : "0"
+                  marginRight: index < headlineWords.length - 1 ? "0.35em" : "0",
                 }}
                 className="origin-bottom"
               >
@@ -78,7 +90,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.7 }}
-          className="text-white/80 mb-6 max-w-2xl space-y-3 text-base md:text-lg drop-shadow-md"
+          className="text-white/80 mb-8 max-w-2xl space-y-3 text-base md:text-lg drop-shadow-md"
         >
           <p>
             Terrixa Realty is a <strong>research-driven real estate advisory firm</strong> specializing in <strong>land broking, plotting, residential sales, and commercial leasing</strong> across Pune and its high-growth regions.
@@ -94,21 +106,31 @@ export function HeroSection() {
           transition={{ duration: 0.8, delay: 2.0 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <Link href="/about#contact">
-            <Button
-              size="lg"
-              className="bg-transparent border-2 border-[#C5A065] text-white hover:bg-[#C5A065] hover:text-white rounded-full px-10 py-7 text-lg font-semibold transition-all duration-300"
-            >
-              Book a Consultation
-            </Button>
+          <Link href="/contact">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-[#C5A065] to-[#E5C085] hover:from-[#B59055] hover:to-[#D5B075] text-white rounded-full px-10 py-7 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group"
+              >
+                <motion.span
+                  className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6 }}
+                />
+                <span className="relative">Book a Consultation</span>
+              </Button>
+            </motion.div>
           </Link>
-          <Link href="/locations">
-            <Button
-              size="lg"
-              className="bg-black/40 backdrop-blur-md border-2 border-white/30 text-white hover:bg-white hover:text-black hover:border-white rounded-full px-10 py-7 text-lg font-semibold transition-all duration-300"
-            >
-              Explore Opportunities
-            </Button>
+          <Link href="/markets">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                size="lg"
+                className="bg-black/40 backdrop-blur-md border-2 border-white/30 text-white hover:bg-white hover:text-black hover:border-white rounded-full px-10 py-7 text-lg font-semibold transition-all duration-300"
+              >
+                Explore Opportunities
+              </Button>
+            </motion.div>
           </Link>
         </motion.div>
       </div>

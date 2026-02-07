@@ -1,7 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { CheckCircle2 } from "lucide-react"
+import { CheckCircle } from "lucide-react"
+import { scaleIn, staggerContainer } from "@/lib/motion"
 
 const benefits = [
   "Local market specialists",
@@ -29,21 +30,34 @@ export function WhySpeak() {
           </p>
         </motion.div>
 
-        <div className="max-w-2xl mx-auto space-y-4">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5"
+        >
           {benefits.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 hover:border-gold/30 transition-all duration-300"
+              variants={scaleIn}
+              whileHover={{
+                y: -6,
+                boxShadow: "0 0 30px rgba(197,160,101,0.15)",
+                borderColor: "rgba(197,160,101,0.4)",
+                transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+              }}
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 flex flex-col items-center text-center gap-4 cursor-pointer transition-colors duration-300"
             >
-              <CheckCircle2 className="h-5 w-5 text-gold flex-shrink-0" />
-              <span className="text-white/90 font-medium">{item}</span>
+              <div className="w-14 h-14 rounded-full bg-[#C5A065]/10 flex items-center justify-center">
+                <CheckCircle className="h-7 w-7 text-[#C5A065]" />
+              </div>
+              <span className="text-white/90 font-medium text-base leading-relaxed">
+                {item}
+              </span>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

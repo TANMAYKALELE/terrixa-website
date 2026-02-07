@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Montserrat, Poppins } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { WhatsAppButton } from "@/components/WhatsAppButton"
+import { ScrollProgress } from "@/components/scroll-progress"
 import "./globals.css"
 
 const montserrat = Montserrat({
@@ -48,7 +49,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.variable} ${poppins.variable} font-sans antialiased overflow-x-hidden`}>
+      <body className={`${montserrat.variable} ${poppins.variable} font-sans antialiased overflow-x-hidden scroll-smooth`}>
+        <ScrollProgress />
         {children}
         <WhatsAppButton />
         <Analytics />

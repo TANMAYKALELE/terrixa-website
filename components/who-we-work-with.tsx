@@ -3,6 +3,7 @@
 import { Building2, Landmark, Users } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
+import { staggerContainer, fadeUp } from "@/lib/motion"
 
 const partners = [
   {
@@ -39,61 +40,65 @@ const partners = [
 
 export function WhoWeWorkWith() {
   return (
-    <section className="py-16 md:py-20 bg-off-white">
+    <section className="py-20 md:py-28 bg-off-white">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-10 max-w-3xl mx-auto"
+          className="text-center mb-14 max-w-3xl mx-auto"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-charcoal mb-4 font-[var(--font-heading)]">
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="h-1 w-16 bg-gradient-to-r from-[#C5A065] to-[#E5C085] rounded-full mx-auto mb-6"
+          />
+          <h2 className="text-3xl md:text-4xl font-bold text-charcoal mb-4 font-[var(--font-heading)]">
             Who We Work With
           </h2>
           <p className="text-charcoal/70">Our Clients</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+        >
           {partners.map((partner, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: [0.22, 1, 0.36, 1]
-              }}
+              variants={fadeUp}
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
-              <Card className="group overflow-hidden bg-white border-charcoal/10 hover:border-gold hover:shadow-2xl transition-all duration-500">
+              <Card className="group overflow-hidden bg-white border-charcoal/10 hover:border-[#C5A065]/40 hover:shadow-2xl transition-all duration-500 rounded-2xl">
                 <div className="aspect-video overflow-hidden relative">
                   <motion.img
                     src={partner.image}
                     alt={partner.title}
                     className="w-full h-full object-cover"
-                    whileHover={{
-                      scale: 1.05,
-                    }}
-                    transition={{
-                      duration: 0.5,
-                      ease: [0.65, 0, 0.35, 1],
-                    }}
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.6, ease: [0.65, 0, 0.35, 1] }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                      <partner.icon className="h-5 w-5 text-[#C5A065]" />
+                    </div>
+                  </div>
                 </div>
                 <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <partner.icon className="h-5 w-5 text-gold" />
-                    <h3 className="font-bold text-sm text-charcoal font-[var(--font-heading)]">{partner.title}</h3>
-                  </div>
+                  <h3 className="font-bold text-charcoal font-[var(--font-heading)] mb-2">{partner.title}</h3>
                   <p className="text-sm text-charcoal/70 leading-relaxed">{partner.description}</p>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -102,7 +107,7 @@ export function WhoWeWorkWith() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center text-charcoal/70 mt-10 max-w-2xl mx-auto"
         >
-          Each engagement is tailored to <strong>specific goals, timelines, and risk profiles</strong>.
+          Each engagement is tailored to <strong className="text-charcoal">specific goals, timelines, and risk profiles</strong>.
         </motion.p>
       </div>
     </section>

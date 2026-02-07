@@ -1,87 +1,172 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Home, Building2, Briefcase, BarChart3 } from "lucide-react"
 
 const services = [
   {
     icon: Home,
     title: "Residential Sales & Channel Partner Management",
-    description:
-      "We provide advisory and execution support for primary residential projects, working with developers and channel partners to ensure:\n• Market-aligned pricing strategies\n• Structured sales processes\n• Buyer qualification and requirement mapping\n• Efficient deal closures\n\nOur focus is on realistic absorption, transparent communication, and long-term brand value.",
+    items: [
+      "Market-aligned pricing strategies",
+      "Structured sales processes",
+      "Buyer qualification and requirement mapping",
+      "Efficient deal closures",
+    ],
+    closing: "Our focus is on realistic absorption, transparent communication, and long-term brand value.",
   },
   {
     icon: Building2,
     title: "Residential Broking",
-    description:
-      "For homebuyers and investors, we offer residential broking services across:\n• Apartments\n• Villas\n• Plotted developments\n• Lifestyle and second homes\n\nOur residential advisory includes:\n• Property discovery and shortlisting\n• Comparative market analysis\n• Negotiation support\n• Transaction coordination\n\nEvery recommendation is backed by pricing logic and market insight.",
+    items: [
+      "Property discovery and shortlisting",
+      "Comparative market analysis",
+      "Negotiation support",
+      "Transaction coordination",
+    ],
+    closing: "Every recommendation is backed by pricing logic and market insight.",
   },
   {
     icon: Briefcase,
     title: "Commercial Leasing & Tenant Representation",
-    description:
-      "Terrixa Realty advises landlords, occupiers, and investors on commercial leasing strategies, particularly in Hinjewadi, Wakad, Ravet, Talegaon, and Pune city.\n\nOur services include:\n• Office and retail leasing advisory\n• Tenant representation\n• Rental benchmarking and market studies\n• Lease structuring and negotiation\n\nWe align real estate decisions with business objectives.",
+    items: [
+      "Office and retail leasing advisory",
+      "Tenant representation",
+      "Rental benchmarking and market studies",
+      "Lease structuring and negotiation",
+    ],
+    closing: "We align real estate decisions with business objectives.",
   },
   {
     icon: BarChart3,
     title: "Research, Valuation & Market Intelligence",
-    description:
-      "Research is central to everything we do.\n\nWe provide:\n• Land and property valuation\n• Location-specific feasibility studies\n• Demand-supply and pricing trend analysis\n• Investment risk assessment\n\nThis ensures our clients make informed, defensible, and future-ready property decisions.",
+    items: [
+      "Land and property valuation",
+      "Location-specific feasibility studies",
+      "Demand-supply and pricing trend analysis",
+      "Investment risk assessment",
+    ],
+    closing: "This ensures our clients make informed, defensible, and future-ready property decisions.",
   },
 ]
 
 export function IntegratedServices() {
+  const [activeIndex, setActiveIndex] = useState(0)
+
   return (
-    <section className="py-16 md:py-20 bg-white">
+    <section className="py-20 md:py-28 bg-white">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-charcoal mb-3 font-[var(--font-heading)]">
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="h-1 w-16 bg-gradient-to-r from-[#C5A065] to-[#E5C085] rounded-full mx-auto mb-6"
+          />
+          <h2 className="text-3xl md:text-4xl font-bold text-charcoal mb-3 font-[var(--font-heading)]">
             Integrated Real Estate Advisory Services
           </h2>
           <p className="text-lg text-charcoal/70 max-w-3xl mx-auto">
             Beyond Land — Complete Property Advisory
           </p>
-          <p className="text-charcoal/70 mt-4 max-w-3xl mx-auto">
+          <p className="text-charcoal/60 mt-3 max-w-3xl mx-auto">
             Once the land foundation is clear, our advisory seamlessly extends into residential and commercial real estate, allowing clients to scale their property strategy with continuity and confidence.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {services.map((service, index) => {
-            const Icon = service.icon
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-off-white border border-charcoal/10 rounded-xl p-6 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center">
-                      <Icon className="h-6 w-6 text-gold" />
-                    </div>
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8"
+          >
+            {services.map((service, index) => {
+              const Icon = service.icon
+              const isActive = activeIndex === index
+              return (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`relative flex flex-col items-center gap-3 p-4 md:p-5 rounded-xl border-2 transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? "border-[#C5A065] bg-[#C5A065]/5 shadow-lg"
+                      : "border-charcoal/10 bg-off-white hover:border-[#C5A065]/30 hover:bg-[#C5A065]/5"
+                  }`}
+                >
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${
+                    isActive ? "bg-[#C5A065]/20" : "bg-charcoal/5"
+                  }`}>
+                    <Icon className={`h-6 w-6 transition-colors duration-300 ${
+                      isActive ? "text-[#C5A065]" : "text-charcoal/50"
+                    }`} />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-charcoal mb-3 font-[var(--font-heading)]">
-                      {service.title}
-                    </h3>
-                    <div className="text-charcoal/70 leading-relaxed text-sm whitespace-pre-line">
-                      {service.description}
-                    </div>
-                  </div>
+                  <span className={`text-xs md:text-sm font-semibold text-center leading-tight transition-colors duration-300 font-[var(--font-heading)] ${
+                    isActive ? "text-charcoal" : "text-charcoal/60"
+                  }`}>
+                    {service.title.split(" & ")[0]}
+                  </span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-[#C5A065] rounded-full"
+                    />
+                  )}
+                </button>
+              )
+            })}
+          </motion.div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="bg-off-white border border-charcoal/10 rounded-2xl p-6 md:p-8"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-xl bg-[#C5A065]/10 flex items-center justify-center flex-shrink-0">
+                  {(() => {
+                    const Icon = services[activeIndex].icon
+                    return <Icon className="h-7 w-7 text-[#C5A065]" />
+                  })()}
                 </div>
-              </motion.div>
-            )
-          })}
+                <h3 className="text-xl md:text-2xl font-bold text-charcoal font-[var(--font-heading)]">
+                  {services[activeIndex].title}
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                {services[activeIndex].items.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: i * 0.08 }}
+                    className="flex items-center gap-3 bg-white border border-charcoal/5 rounded-xl p-4"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-[#C5A065] flex-shrink-0" />
+                    <span className="text-charcoal/70 text-sm">{item}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              <p className="text-charcoal/70 text-sm border-t border-charcoal/10 pt-4">
+                <strong className="text-charcoal">{services[activeIndex].closing}</strong>
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>

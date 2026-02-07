@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Users, TrendingUp, Landmark, Building2, Briefcase } from "lucide-react"
+import { scaleIn, staggerContainer } from "@/lib/motion"
 
 const clients = [
   { icon: Users, text: "Individual homebuyers" },
@@ -28,26 +29,30 @@ export function ContactAudience() {
           <p className="text-lg text-charcoal/70">We Work With</p>
         </motion.div>
 
-        <div className="max-w-2xl mx-auto space-y-3 mb-8">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="max-w-2xl mx-auto space-y-3 mb-8"
+        >
           {clients.map((client, index) => {
             const Icon = client.icon
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="flex items-center gap-4 bg-off-white border border-charcoal/10 rounded-xl p-4 hover:shadow-lg hover:border-gold/30 transition-all duration-300"
+                variants={scaleIn}
+                whileHover={{ y: -6, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
+                className="flex items-center gap-4 bg-off-white border border-charcoal/10 rounded-xl p-4 hover:shadow-lg hover:border-[#C5A065]/30 transition-all duration-300 border-b-2 border-b-[#C5A065]/50 cursor-pointer"
               >
-                <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-gold/10 flex items-center justify-center">
-                  <Icon className="h-4 w-4 text-gold" />
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-[#C5A065]/10 flex items-center justify-center">
+                  <Icon className="h-5 w-5 text-[#C5A065]" />
                 </div>
                 <span className="text-charcoal/80 font-medium">{client.text}</span>
               </motion.div>
             )
           })}
-        </div>
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -56,7 +61,11 @@ export function ContactAudience() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center text-charcoal/70 max-w-2xl mx-auto"
         >
-          Our advisory is customized to <strong className="text-charcoal">each client's goals and investment horizon</strong>.
+          Our advisory is customized to{" "}
+          <strong className="text-charcoal">
+            each client&apos;s goals and investment horizon
+          </strong>
+          .
         </motion.p>
       </div>
     </section>
