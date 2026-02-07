@@ -2,12 +2,12 @@ import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { AboutHero } from "@/components/about/about-hero"
-import { Philosophy } from "@/components/about/philosophy"
+import { OurApproach } from "@/components/about/our-approach"
 import { BusinessManifesto } from "@/components/about/business-manifesto"
-import { ServicesGrid } from "@/components/about/services-grid"
-import { CompanyStats } from "@/components/about/company-stats"
-import { ContactSection } from "@/components/about/contact-section"
-import { FooterContactBar } from "@/components/footer-contact-bar"
+import { AdvisoryVerticals } from "@/components/about/advisory-verticals"
+import { WhoWeWorkWithAbout } from "@/components/about/who-we-work-with-about"
+import { OurCommitment } from "@/components/about/our-commitment"
+import { AboutCTA } from "@/components/about/about-cta"
 
 export const metadata: Metadata = {
   title: "About Terrixa Realty | Clarity Over Speculation",
@@ -20,12 +20,12 @@ export default function AboutPage() {
     <main className="min-h-screen overflow-x-hidden">
       <Header />
       <AboutHero />
-      <Philosophy />
+      <OurApproach />
       <BusinessManifesto />
-      <ServicesGrid />
-      <CompanyStats />
-      <ContactSection />
-      <FooterContactBar />
+      <AdvisoryVerticals />
+      <WhoWeWorkWithAbout />
+      <OurCommitment />
+      <AboutCTA />
       <Footer />
     </main>
   )

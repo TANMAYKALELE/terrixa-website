@@ -1,20 +1,23 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Menu, X, MessageCircle, ChevronDown } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/markets", label: "Markets" },
+  { href: "/contact", label: "Contact" },
+]
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [companyDropdownOpen, setCompanyDropdownOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
-  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,21 +43,6 @@ export function Header() {
     }
   }, [mobileMenuOpen])
 
-  const handleScrollToInvesting = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setCompanyDropdownOpen(false)
-    setMobileMenuOpen(false)
-
-    if (pathname !== "/") {
-      router.push("/#start-investing")
-    } else {
-      const investingSection = document.getElementById("start-investing")
-      if (investingSection) {
-        investingSection.scrollIntoView({ behavior: "smooth" })
-      }
-    }
-  }
-
   return (
     <>
       <header
@@ -65,7 +53,6 @@ export function Header() {
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between py-4 md:py-5">
-            {/* Logo - TERRIXA */}
             <Link href="/" className="flex items-center">
               <img
                 src="/logo.jpeg"
@@ -74,74 +61,29 @@ export function Header() {
               />
             </Link>
 
-            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
-              <Link
-                href="/#land"
-                className="text-sm font-medium transition-colors flex items-center gap-1 text-white/90 hover:text-gold"
-              >
-                Land
-                <ChevronDown className="h-3 w-3" />
-              </Link>
-
-              <Link
-                href="/plotting"
-                className={cn(
-                  "text-sm font-medium transition-colors",
-                  pathname === "/plotting" ? "text-gold" : "text-white/90 hover:text-gold",
-                )}
-              >
-                Plot
-              </Link>
-
-              <Link
-                href="/locations"
-                className={cn(
-                  "text-sm font-medium transition-colors",
-                  pathname === "/locations" ? "text-gold" : "text-white/90 hover:text-gold",
-                )}
-              >
-                Locations
-              </Link>
-
-              {/* Company Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setCompanyDropdownOpen(true)}
-                onMouseLeave={() => setCompanyDropdownOpen(false)}
-              >
-                <button className="text-sm font-medium transition-colors flex items-center gap-1 text-white/90 hover:text-gold">
-                  Company
-                  <ChevronDown className={cn("h-3 w-3 transition-transform", companyDropdownOpen && "rotate-180")} />
-                </button>
-
-                {/* Dropdown Menu */}
-                <div
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
                   className={cn(
-                    "absolute top-full left-0 mt-2 w-40 bg-charcoal rounded-lg shadow-lg border border-white/10 py-2 transition-all duration-200",
-                    companyDropdownOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2",
+                    "text-sm font-medium transition-colors",
+                    pathname === link.href ? "text-gold" : "text-white/90 hover:text-gold",
                   )}
                 >
-                  <Link
-                    href="/about"
-                    className="block w-full text-left px-4 py-2 text-sm text-white/80 hover:bg-white/10 hover:text-gold transition-colors"
-                    onClick={() => setCompanyDropdownOpen(false)}
-                  >
-                    About Us
-                  </Link>
-                </div>
-              </div>
+                  {link.label}
+                </Link>
+              ))}
             </nav>
 
             <div className="hidden md:flex items-center gap-4">
-              <Link href="/about#contact">
+              <Link href="/contact">
                 <Button className="bg-gold hover:bg-gold/90 text-white rounded-full px-6 py-2 font-medium transition-all duration-300 shadow-lg hover:shadow-gold/20">
-                  Contact
+                  Request Consultation
                 </Button>
               </Link>
             </div>
 
-            {/* Mobile Menu Button - always white */}
             <button
               className="md:hidden p-2 transition-colors z-50 text-white"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -153,7 +95,6 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       <div
         className={cn(
           "fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity duration-300",
@@ -169,7 +110,6 @@ export function Header() {
         )}
       >
         <div className="flex flex-col h-full">
-          {/* Drawer Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/10">
             <img
               src="/logo.jpeg"
@@ -185,72 +125,31 @@ export function Header() {
             </button>
           </div>
 
-          {/* Drawer Navigation */}
           <nav className="flex-1 px-4 py-6">
             <ul className="space-y-1">
-              <li>
-                <Link
-                  href="/#land"
-                  className="block py-3 px-4 text-white/80 font-medium hover:bg-white/10 hover:text-gold rounded-lg transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Land
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/plotting"
-                  className={cn(
-                    "block py-3 px-4 font-medium hover:bg-white/10 hover:text-gold rounded-lg transition-colors",
-                    pathname === "/plotting" ? "text-gold bg-white/10" : "text-white/80",
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Plot
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/locations"
-                  className={cn(
-                    "block py-3 px-4 font-medium hover:bg-white/10 hover:text-gold rounded-lg transition-colors",
-                    pathname === "/locations" ? "text-gold bg-white/10" : "text-white/80",
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Locations
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className={cn(
-                    "block py-3 px-4 font-medium hover:bg-white/10 hover:text-gold rounded-lg transition-colors",
-                    pathname === "/about" ? "text-gold bg-white/10" : "text-white/80",
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About Us
-                </Link>
-              </li>
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "block py-3 px-4 font-medium hover:bg-white/10 hover:text-gold rounded-lg transition-colors",
+                      pathname === link.href ? "text-gold bg-white/10" : "text-white/80",
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
 
-          {/* Drawer Footer */}
-          <div className="p-4 border-t border-white/10 space-y-2">
-            <Link href="/about#contact" onClick={() => setMobileMenuOpen(false)}>
+          <div className="p-4 border-t border-white/10">
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
               <Button className="bg-gold hover:bg-gold/90 text-white rounded-full w-full hover:shadow-lg transition-all">
-                <MessageCircle className="mr-2 h-4 w-4" />
-                Contact Us
+                Request Consultation
               </Button>
             </Link>
-            <Button
-              onClick={handleScrollToInvesting}
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 rounded-full w-full transition-all"
-            >
-              Chat With Us
-            </Button>
           </div>
         </div>
       </div>
